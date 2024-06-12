@@ -12,8 +12,6 @@ app.use(router)
 
 app.mount('#app')
 
-app.directive('img.lazy',{
-    mounted(el,binding){
-        console.log(el.binding.value);
-    }
-})
+// 全局指令注册
+import {lazyPlugin} from "@/directives";
+app.use(lazyPlugin)

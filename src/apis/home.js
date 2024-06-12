@@ -25,3 +25,11 @@ export const getNewAPI = () => {
 export const getHotAPI = () => {
     return http.get('/home/hot')
 }
+/**
+ * @description: 获取产品列表
+ * @param {*}
+ * @return {*}
+ */
+export const getGoodsAPI = () => {
+    return http.get('/home/goods')
+}
