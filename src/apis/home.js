@@ -5,8 +5,8 @@ import http from "@/utils/http";
  * @param {*}
  * @return {*}
  */
-export function getBannerAPI(){
-    return http.get('/home/banner');
+export function getBannerAPI(distributionSite='1'){
+    return http.get('/home/banner',{params:{distributionSite}});
 }
 /**
  * @description: 获取新鲜好物
