@@ -1,4 +1,6 @@
 import axios from "axios"
+import { ElMessage } from "element-plus"
+import 'element-plus/theme-chalk/el-message.css'
 const http = axios.create({
     baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
     timeout: 5000
@@ -10,7 +12,13 @@ const http = axios.create({
   // axios响应式拦截器
   // 一般进行错误的统一提示，token失效的处理等
   http.interceptors.response.use(res => res.data, e => {
-    return Promise.reject(e)
+    //统一错误提示
+    ElMessage({
+      type: 'error',
+      message: e.response.data.message
+  })
+
+  return Promise.reject(e)
   })
   
   
