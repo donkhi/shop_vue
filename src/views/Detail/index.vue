@@ -11,8 +11,37 @@ const getGoods = async () => {
     goods.value = res.result
 }
 onMounted(() => getGoods())
-const skuChange = (sku)=>{
-  console.log(sku)
+import { useCartStore } from "@/stores/cartStore";
+import { ElMessage } from "element-plus";
+import 'element-plus/theme-chalk/el-message.css'
+//购物车
+let skuObj = {};
+const skuChange = (sku) => {
+    // console.log(sku)
+    skuObj = sku
+}
+const count = ref(1);
+const cartStore = useCartStore();
+//添加购物车
+const addCart = () => {
+    console.log(skuObj)
+    if (skuObj.skuId) {
+        // 规则已经选择  触发action
+        cartStore.addCart({
+            id: goods.value.id,
+            name: goods.value.name,
+            picture: goods.value.mainPictures[0],
+            price: goods.value.price,
+            count: count.value,
+            skuId: skuObj.skuId,
+            attrsText: skuObj.specsText,
+            selected: true
+        })
+        console.log(cartStore.cartList);
+    } else {
+        // 规格没有选择 提示用户
+        ElMessage.warning('请选择规格')
+    }
 }
 </script>
 
@@ -37,7 +66,7 @@ const skuChange = (sku)=>{
                     <div class="goods-info">
                         <div class="media">
                             <!-- 图片预览区 -->
-                            <ImageView :image-list="goods.mainPictures"/>
+                            <ImageView :image-list="goods.mainPictures" />
                             <!-- 统计数量 -->
                             <ul class="goods-sales">
                                 <li>
@@ -86,12 +115,13 @@ const skuChange = (sku)=>{
                                 </dl>
                             </div>
                             <!-- sku组件 -->
-                            <Sku :goods="goods" @change="skuChange"/>
+                            <Sku :goods="goods" @change="skuChange" />
                             <!-- 数据组件 -->
+                            <el-input-number v-model="count" :min="1" />
 
                             <!-- 按钮组件 -->
                             <div>
-                                <el-button size="large" class="btn">
+                                <el-button size="large" class="btn" @click="addCart">
                                     加入购物车
                                 </el-button>
                             </div>
